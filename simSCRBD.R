@@ -5,7 +5,7 @@ e2dist = function (x, y){
 }
 simSCRBD<-
   function(B=NA,lam0=NA,p0=NA,sigma=0.50,theta=NA,X=X,buff=3,obstype="poisson",
-           t.mu=t.mu,t.sd=t.sd,K=NA,K2D=NA,plot=TRUE){
+           omega=NA,t.mu=NA,t.sd=NA,K=NA,K2D=NA,plot=TRUE){
     # simulate a population of activity centers
     xlim=range(X[,1])+c(-buff,buff)
     ylim=range(X[,2])+c(-buff,buff)
@@ -26,10 +26,10 @@ simSCRBD<-
     }
     
     #exposure to capture by occasion
-    z=matrix(0,B,K) #exposed from the day after birth to the day of death
+    z=matrix(0,B,K) #exposed from the day of birth to the day of death. Entire day. For Poisson, could consider partial exposure on those days.
     for(i in 1:B){
-      first=bday[i]
-      last=dday[i]
+      first=round(max(bday[i], 1)-0.49999)
+      last=round(min(K, dday[i])-0.49999)
       if(first<1&last<1)next
       if(first>K&last>K)next
       if(first<1){

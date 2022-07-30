@@ -21,7 +21,7 @@ J=nrow(X)
 K2D=matrix(1,J,K)
 
 data=simSCRBD(B=B,p0=p0,sigma=sigma,X=X,buff=3,obstype="bernoulli",
-             t.mu=t.mu,t.sd=t.sd,K=K,K2D=K2D)
+             omega=omega,t.mu=t.mu,t.sd=t.sd,K=K,K2D=K2D)
 
 M=100
 inits=list(t.mu=t.mu,t.sd=t.sd,omega=omega,psi=0.5)
