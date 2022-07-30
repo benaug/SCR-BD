@@ -3,7 +3,7 @@ NimModel <- nimbleCode({
   t.sd ~ dunif(0,500) # Variance of birth dates
   omega ~ dunif(0,1000) # Mean lifetime
   psi ~ dunif(0,1) # Data augmentation parameter, E(nBirths)=M*psi
-  p0 ~ dunif(0,1) # baseline detection rate
+  p0 ~ dunif(0,1) # baseline detection prob
   sigma ~ dunif(0,10) # df scale
   for(i in 1:M) {
     s[i,1] ~ dunif(xlim[1], xlim[2])
