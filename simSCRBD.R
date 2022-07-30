@@ -30,8 +30,8 @@ simSCRBD<-
     for(i in 1:B){
       first=round(max(bday[i], 1)-0.49999)
       last=round(min(K, dday[i])-0.49999)
-      if(first<1&last<1)next
-      if(first>K&last>K)next
+      if(last<1)next
+      if(first>K)next
       if(first<1){
         first=1
       }
@@ -77,7 +77,7 @@ simSCRBD<-
       par(mfrow=c(1,1),ask=FALSE)
       ## Temporal view of bdays and lifetimes
       plot(0, type="n", xlim=c(0, K), ylim=c(1,B),
-           xlab="Time", ylab="Individual")
+           xlab="Time", ylab="Individual",main="Simulated Lifetimes")
       for(i in 1:B) {
         segments(bday[i], i, dday[i], i)
       }

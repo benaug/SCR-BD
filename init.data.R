@@ -62,7 +62,7 @@ init.data=function(data=NA,inits=NA,M=NA,plot=TRUE){
   if(plot==TRUE){
     ## Temporal view of bdays and lifetimes
     plot(0, type="n", xlim=c(0,K), ylim=c(1,M),
-         xlab="Time", ylab="Individual")
+         xlab="Time", ylab="Individual",main="Initialized Lifetimes")
     for(i in 1:M) {
       segments(bday[i], i, dday[i], i)
     }
