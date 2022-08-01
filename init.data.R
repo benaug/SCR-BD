@@ -77,7 +77,7 @@ init.data=function(data=NA,inits=NA,M=NA,plot=TRUE){
   last.seen=c(last.seen,rep(-Inf,M-n))
   
   return(list(s=s,z=z,K2D=K2D,b=b,y=y,J=J,K=K,bday=bday,dday=dday,first.seen=first.seen,last.seen=last.seen,
-              first=first,last=last,lifetime=lifetime,xlim=xlim,ylim=ylim))
+              lifetime=lifetime,xlim=xlim,ylim=ylim))
   
   
 }

@@ -4,7 +4,7 @@ e2dist = function (x, y){
   matrix(dvec, nrow = nrow(x), ncol = nrow(y), byrow = F)
 }
 simSCRBD<-
-  function(B=NA,lam0=NA,p0=NA,sigma=0.50,theta=NA,X=X,buff=3,obstype="poisson",
+  function(B=NA,p0=NA,lam0=NA,sigma=0.50,theta=NA,X=X,buff=3,obstype="bernoulli",
            omega=NA,t.mu=NA,t.sd=NA,K=NA,K2D=NA,plot=TRUE){
     # simulate a population of activity centers
     xlim=range(X[,1])+c(-buff,buff)
@@ -95,7 +95,7 @@ simSCRBD<-
     dday=dday[caught]
     lifetime=lifetime[caught]
     
-    out<-list(y=y,X=X,K=K,buff=buff,obstype=obstype,s=s,n=nrow(y),K=K,z=z,K2D=K2D,
+    out<-list(y=y,X=X,K=K,buff=buff,obstype=obstype,s=s,n=n,K=K,z=z,K2D=K2D,
               xlim=xlim,ylim=ylim,bday=bday,dday=dday,lifetime=lifetime)
     return(out)
   }
