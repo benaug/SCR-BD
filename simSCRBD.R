@@ -5,7 +5,7 @@ e2dist = function (x, y){
 }
 simSCRBD<-
   function(B=NA,p0=NA,lam0=NA,sigma=0.50,theta=NA,X=X,buff=3,obstype="bernoulli",
-           omega=NA,t.mu=NA,t.sd=NA,K=NA,K2D=NA,plot=TRUE){
+           omega=NA,t.mu=NA,t.sd=NA,K=NA,K2D=NA,bday.delta=NA,plot=TRUE){
     # simulate a population of activity centers
     xlim=range(X[,1])+c(-buff,buff)
     ylim=range(X[,2])+c(-buff,buff)
@@ -95,7 +95,17 @@ simSCRBD<-
     dday=dday[caught]
     lifetime=lifetime[caught]
     
+    #make bday windows
+    bday.range=matrix(NA,n,2)
+    bday.discrete=floor(bday)
+    if(!is.na(bday.delta)){
+      for(i in 1:n){
+        bday.range[i,1]=sample((bday.discrete[i]-bday.delta):(bday.discrete[i]),1)
+        bday.range[i,2]=bday.range[i,1]+bday.delta
+      }
+    }
+    
     out<-list(y=y,X=X,K=K,buff=buff,obstype=obstype,s=s,n=n,K=K,z=z,K2D=K2D,
-              xlim=xlim,ylim=ylim,bday=bday,dday=dday,lifetime=lifetime)
+              xlim=xlim,ylim=ylim,bday=bday,dday=dday,lifetime=lifetime,bday.range=bday.range)
     return(out)
   }

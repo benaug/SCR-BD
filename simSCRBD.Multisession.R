@@ -15,7 +15,7 @@ getArea = function (X, buff){
 
 simSCRBD.Multisession<-
   function(N.session=3,lambda=NA,p0=NA,lam0=NA,sigma=NA,theta=NA,K=NA,K2D=NA,X=NA,
-           omega=NA,t.mu=NA,t.sd=NA,buff=NA,obstype="bernoulli",plot=TRUE){
+           omega=NA,t.mu=NA,t.sd=NA,buff=NA,obstype="bernoulli",bday.delta=NA,plot=TRUE){
     if(length(lambda)!=N.session)stop("lambda must be of length N.session")
     if(obstype%in%c("poisson","negbin")){
       if(length(lam0)!=N.session)stop("lam0 must be of length N.session")
@@ -31,6 +31,11 @@ simSCRBD.Multisession<-
       if(length(theta)!=N.session)stop("theta must be of length N.session")
     }else{
       theta=rep(theta,N.session)
+    }
+    if(!all(is.na(bday.delta))){
+      if(length(bday.delta)!=N.session)stop("bday.delta must be of length N.session")
+    }else{
+      bday.delta=rep(NA,N.session)
     }
     
     #realized B
@@ -52,12 +57,12 @@ simSCRBD.Multisession<-
     data=vector("list",N.session)
     for(g in 1:N.session){
       data[[g]]=simSCRBD(B=B[g],lam0=lam0[g],p0=p0[g],sigma=sigma[g],K=K[g],X=X[[g]],buff=buff[g],
-                        obstype=obstype,theta=theta[g],omega=omega[g],t.mu=t.mu[g],t.sd=t.sd[g])
+                        obstype=obstype,theta=theta[g],omega=omega[g],t.mu=t.mu[g],t.sd=t.sd[g],bday.delta=bday.delta[g])
     }
     
     #combine session data
     n=rep(NA,N.session)
-    y=s=bday=dday=lifetime=K2D=vector("list",N.session)
+    y=s=bday=dday=lifetime=K2D=bday.range=vector("list",N.session)
     for(g in 1:N.session){
       y[[g]]=data[[g]]$y
       s[[g]]=data[[g]]$s
@@ -66,9 +71,10 @@ simSCRBD.Multisession<-
       lifetime[[g]]=data[[g]]$lifetime
       K2D[[g]]=data[[g]]$K2D
       n[g]=data[[g]]$n
+      bday.range[[g]]=data[[g]]$bday.range
     }
     
     out<-list(y=y,s=s,B=B,n=n,bday=bday,dday=dday,lifetime=lifetime,
-              X=X,K=K,K2D=K2D,buff=buff,xlim=xlim,ylim=ylim)
+              X=X,K=K,K2D=K2D,buff=buff,xlim=xlim,ylim=ylim,bday.range=bday.range)
     return(out)
   }

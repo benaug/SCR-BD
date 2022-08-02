@@ -9,6 +9,7 @@ init.data=function(data=NA,inits=NA,M=NA,plot=TRUE){
   n=nrow(y)
   K=data$K
   K2D=data$K2D
+  bday.range=data$bday.range
   
   t.mu=inits$t.mu
   t.sd=inits$t.sd
@@ -39,6 +40,24 @@ init.data=function(data=NA,inits=NA,M=NA,plot=TRUE){
   #update for detected guys
   bday[1:n]=first.seen-10 #initialize to 1 day before first seen
   dday[1:n]=last.seen+10 #1 day after last seen
+  #enforce bday.range if available
+  #initialize to mean of bday range
+  if(!all(is.na(bday.range))){
+    for(i in 1:n){
+      if(!is.na(bday.range[i,1])){ #assuming you see both min/max or nothing
+        bday[i]=mean(bday.range[i,])
+      }else{
+        bday.range[i,]=c(-Inf,Inf) #if you dont' see anyting, set to -/+ infinity
+      }
+    }
+    #need to augment bday range. set limits to -/+ infinity so no constraints
+    bday.range=rbind(bday.range,matrix(0,M-n,2))
+    bday.range[(n+1):M,1]=-Inf
+    bday.range[(n+1):M,2]=Inf
+  }else{
+    bday.range=NA
+  }
+  
   lifetime[1:n]=dday[1:n]-bday[1:n]
   b=rbinom(M,1,inits$psi)
   b[1:n]=1
@@ -77,7 +96,7 @@ init.data=function(data=NA,inits=NA,M=NA,plot=TRUE){
   last.seen=c(last.seen,rep(-Inf,M-n))
   
   return(list(s=s,z=z,K2D=K2D,b=b,y=y,J=J,K=K,bday=bday,dday=dday,first.seen=first.seen,last.seen=last.seen,
-              lifetime=lifetime,xlim=xlim,ylim=ylim))
+              lifetime=lifetime,xlim=xlim,ylim=ylim,bday.range=bday.range))
   
   
 }

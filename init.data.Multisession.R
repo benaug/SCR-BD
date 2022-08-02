@@ -22,7 +22,7 @@ init.data.Multisession<-
     #initialize sessions one by one
     for(g in 1:N.session){
       data.use=list(y=data$y[[g]],X=data$X[[g]],xlim=data$xlim[g,],ylim=data$ylim[g,],
-                    J=J[g],K=K[g],K2D=data$K2D[[g]],n=data$n[g],buff=data$buff[g])
+                    J=J[g],K=K[g],K2D=data$K2D[[g]],n=data$n[g],buff=data$buff[g],bday.range=data$bday.range[[g]])
       init.session[[g]]=init.data(data.use,inits.use[[g]],M=M[g],plot=plot)
     }
     
@@ -31,6 +31,7 @@ init.data.Multisession<-
     s=array(NA,dim=c(N.session,maxM,2))
     b=matrix(NA,N.session,maxM)
     bday=dday=lifetime=first.seen=last.seen=matrix(NA,N.session,maxM)
+    bday.range=array(NA,dim=c(N.session,maxM,2))
     y=array(NA,dim=c(N.session,maxM,max(J),max(K)))
     xlim=ylim=matrix(NA,N.session,2)
     n=rep(NA,N.session)
@@ -41,6 +42,7 @@ init.data.Multisession<-
       y[g,1:M[g],1:J[g],1:K[g]]=init.session[[g]]$y
       bday[g,1:M[g]]=init.session[[g]]$bday
       dday[g,1:M[g]]=init.session[[g]]$dday
+      bday.range[g,1:M[g],]=init.session[[g]]$bday.range
       lifetime[g,1:M[g]]=init.session[[g]]$lifetime
       first.seen[g,1:M[g]]=init.session[[g]]$first.seen
       last.seen[g,1:M[g]]=init.session[[g]]$last.seen
@@ -57,5 +59,5 @@ init.data.Multisession<-
     
     return(list(y=y,X=X.new,xlim=xlim,ylim=ylim,K=K,J=J,n=n,K2D=K2D,s=s,b=b,
                 bday=bday,dday=dday,first.seen=first.seen,last.seen=last.seen,
-                bday=bday,dday=dday,lifetime=lifetime))
+                bday=bday,dday=dday,lifetime=lifetime,bday.range=bday.range))
   }
