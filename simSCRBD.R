@@ -100,7 +100,13 @@ simSCRBD<-
     bday.discrete=floor(bday)
     if(!is.na(bday.delta)){
       for(i in 1:n){
-        bday.range[i,1]=sample((bday.discrete[i]-bday.delta):(bday.discrete[i]),1)
+        if(bday.delta>0){
+          bday.range[i,1]=sample((bday.discrete[i]-bday.delta):(bday.discrete[i]),1)
+        }else if(bday.delta==0){
+          bday.range[i,1]=bday.discrete[i]
+        }else{
+          stop("bday.delta cannot be negative")
+        }
         bday.range[i,2]=bday.range[i,1]+bday.delta
       }
     }

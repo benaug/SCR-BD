@@ -46,6 +46,9 @@ init.data=function(data=NA,inits=NA,M=NA,plot=TRUE){
     for(i in 1:n){
       if(!is.na(bday.range[i,1])){ #assuming you see both min/max or nothing
         bday[i]=mean(bday.range[i,])
+        if(bday[i]>first.seen[i]){ #make sure you didn't assign bday inconsistent with first.seen
+          bday[i]=first.seen[i]
+        }
       }else{
         bday.range[i,]=c(-Inf,Inf) #if you dont' see anyting, set to -/+ infinity
       }
