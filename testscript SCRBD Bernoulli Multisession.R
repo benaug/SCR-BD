@@ -9,9 +9,10 @@ source("NimbleModel SCRBD Bernoulli Multisession.R")
 source("NimbleFunctions SCRBD Bernoulli Multisession.R")
 source("sSampler Multisession.R")
 
-#make sure to run this line!
-nimble:::setNimbleOption('MCMCjointlySamplePredictiveBranches', FALSE)
-nimbleOptions('MCMCjointlySamplePredictiveBranches') 
+#If using Nimble version 0.13.1 and you must run this line 
+nimbleOptions(determinePredictiveNodesInModel = FALSE)
+# #If using Nimble before version 0.13.1, run this line instead
+# nimble:::setNimbleOption('MCMCjointlySamplePredictiveBranches', FALSE) 
 
 N.session=3
 D=0.3 # Density of births
@@ -112,7 +113,7 @@ Cmcmc <- compileNimble(Rmcmc, project = Rmodel)
 
 # Run the model.
 start.time2<-Sys.time()
-Cmcmc$run(1500,reset=FALSE) #short run for demonstration. can keep running this line to get more samples
+Cmcmc$run(15,reset=FALSE) #short run for demonstration. can keep running this line to get more samples
 end.time<-Sys.time()
 time1=end.time-start.time  # total time for compilation, replacing samplers, and fitting
 time2=end.time-start.time2 # post-compilation run time
